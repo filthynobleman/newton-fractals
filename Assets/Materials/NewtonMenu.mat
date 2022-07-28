@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NewtonBasic
+  m_Name: NewtonMenu
   m_Shader: {fileID: 4800000, guid: ea186896d3f509543980a9be973e77f2, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -57,8 +57,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints:
-    - _NumIters: 16
-    - _Power: 3
+    - _NumIters: 64
+    - _Power: 4
     - _Seed: 0
     m_Floats:
     - _BumpScale: 1
@@ -66,11 +66,11 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
-    - _NormalStrength: 0.1
+    - _NormalStrength: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Scale: 1

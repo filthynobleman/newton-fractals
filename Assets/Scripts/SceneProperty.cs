@@ -21,8 +21,6 @@ public class SceneProperty : MonoBehaviour
         mSlider = GetComponent<Slider>();
         mName = gameObject.name.Replace("Slider", "");
         mText = GameObject.Find(mName + "Text").GetComponent<TextMeshProUGUI>();
-
-        Debug.Log(mText);
     }
 
     public void Initialize(MeshRenderer Target)
@@ -40,7 +38,10 @@ public class SceneProperty : MonoBehaviour
         else
         {
             mText.text = mSlider.value.ToString();
-            mText.text = mText.text.Substring(0, Mathf.Min(4, mText.text.Length));
+            int MinLen = 4;
+            if (mSlider.value < 0)
+                MinLen++;
+            mText.text = mText.text.Substring(0, Mathf.Min(MinLen, mText.text.Length));
             mTarget.material.SetFloat(PropertyName, mSlider.value);
         }
     }

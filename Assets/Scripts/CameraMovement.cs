@@ -40,6 +40,14 @@ public class CameraMovement : MonoBehaviour
         Zoom -= dz * ZoomSpeed * Time.fixedDeltaTime;
         Zoom = Mathf.Clamp(Zoom, ZoomLim.x, ZoomLim.y);
 
+
+        if (Input.GetAxis("Reset") > 0)
+        {
+            Theta = 0.0f;
+            Phi = Mathf.PI / 2 - Mathf.Deg2Rad * 30.0f;
+            Zoom = 3.0f;
+        }
+
         gameObject.transform.position = new Vector3(Mathf.Cos(Theta) * Mathf.Sin(Phi),  
                                                     Mathf.Cos(Phi),
                                                     Mathf.Sin(Theta) * Mathf.Sin(Phi));
