@@ -59,7 +59,7 @@ Material:
     m_Ints:
     - _NumIters: 64
     - _Power: 4
-    - _Seed: 0
+    - _Seed: 20
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5

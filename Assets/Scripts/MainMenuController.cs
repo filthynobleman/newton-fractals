@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void LoadScene(int i)
     {
-        
+        SceneManager.LoadSceneAsync(i, LoadSceneMode.Single);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        
+        if (Input.GetAxis("Cancel") > 0)
+            Application.Quit();
     }
 }
