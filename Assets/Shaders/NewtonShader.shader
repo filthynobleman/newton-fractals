@@ -62,7 +62,8 @@ Shader "Custom/NewtonShader"
 
         float _Theta;
 
-
+        // Conversion from a coordinate system based on 4 real values to
+        // an orthogonal basis with complex coefficients
         float4 r4_to_c2(float4 r4)
         {
             return float4(r4.x + r4.w,
@@ -71,6 +72,12 @@ Shader "Custom/NewtonShader"
                           r4.y + r4.z);
         }
 
+        // Vertex shader passes the 3D position of the vertices, modified
+        // according to the input proprties, and its conversion to the
+        // orthogonal basis.
+        // Notice passing the orthogonal basis in vertex shader is perfectly
+        // fine, since the transformation is linear and preserves interpolation.
+        // In this way, we save some computation.
         void vert(inout appdata_full v, out Input o)
         {
             UNITY_INITIALIZE_OUTPUT(Input, o);
@@ -84,18 +91,22 @@ Shader "Custom/NewtonShader"
 
 
 
-
+        // Absolute value of a bicomplex number. When expressed in
+        // the orthogonal basis, the absolute value is half the sum
+        // of the square of the coordinates.
         float bcabs(float4 z)
         {
             return 0.5f * dot(z, z);
         }
 
+        // Multiplication between complex numbers.
         float2 cmul(float2 c1, float2 c2)
         {
             return float2(c1.x * c2.x - c1.y * c2.y,
                 c1.x * c2.y + c1.y * c2.x);
         }
 
+        // Integer power of a complex number
         float2 cpow(float2 c, int k)
         {
             float rho2 = dot(c, c);
@@ -104,6 +115,7 @@ Shader "Custom/NewtonShader"
             return rho2 * float2(cos(k * theta), sin(k * theta));
         }
 
+        // Integer power of a bicomplex number
         float4 bcpow(float4 z, int k)
         {
             float2 ep = float2(z.x, z.y);
@@ -113,18 +125,23 @@ Shader "Custom/NewtonShader"
             return float4(ep.x, ep.y, em.x, em.y);
         }
 
+        // Single step of the Newton-Raphson method for solving the
+        // polinomial z^n - 1 = 0
         float4 newton_step(float4 z, int power)
         {
             return 1.0f / power * ((power - 1) * z + bcpow(z, 1 - power));
         }
 
-
+        // Data structure for returning a 4D point and the convergence time
         struct newton_res
         {
             float4 sol;
             float time;
         };
 
+        // Newton-Raphson method for solving the polynomial z^n - 1 = 0.
+        // The iteration runs to convergence and at the same time computes
+        // the convergence time (i.e. how fast the point converged to a solution)
         newton_res newton(float4 z, int niters, int power)
         {
             newton_res res;
@@ -140,6 +157,8 @@ Shader "Custom/NewtonShader"
             return res;
         }
 
+        // Find the solution of the polynomial z^n - 1 = 0 which is
+        // the closest to the given point.
         float closest_solution(float4 z, int power)
         {
             int sol = 0;
@@ -167,6 +186,7 @@ Shader "Custom/NewtonShader"
         }
 
 
+        // Random utilities for producing random colors from floats.
         int _Seed;
         void Unity_RandomRange_float(float2 Seed, float Min, float Max, out float Out)
         {
@@ -184,7 +204,9 @@ Shader "Custom/NewtonShader"
         }
 
 
-
+        // Pixel shader computing the Newton-Raphson method for each pixel and
+        // assigning a color depending on which solution the point converged to.
+        // The convergence speed is used as a bump map.
         float _NormalStrength;
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
