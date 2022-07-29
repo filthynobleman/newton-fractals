@@ -1,5 +1,5 @@
 # Newton Fractals on Surfaces
-This repository contains a Unity3D project implementing a demo for the method presented in *Newton's Fractals on Surfaces via Bicomplex ALgebra*, published at ACM SIGGRAPH 2022 in the Poster program (link will be added soon).  
+This repository contains a Unity3D project implementing a demo for the method presented in [*Newton's Fractals on Surfaces via Bicomplex ALgebra*](https://dl.acm.org/doi/abs/10.1145/3532719.3543211), published at ACM SIGGRAPH 2022 in the Poster program.  
 
 
 ## Demo Content

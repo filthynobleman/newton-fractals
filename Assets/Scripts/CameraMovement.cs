@@ -21,6 +21,13 @@ public class CameraMovement : MonoBehaviour
     private float Phi = Mathf.PI / 2 - Mathf.Deg2Rad * 30.0f;
     private float Zoom = 3.0f;
 
+    private SceneController mController;
+
+    void Start()
+    {
+        mController = FindObjectOfType<SceneController>();
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -32,6 +39,17 @@ public class CameraMovement : MonoBehaviour
             dx *= SprintMultiplier;
             dy *= SprintMultiplier;
             dz *= SprintMultiplier;
+        }
+
+        if (mController != null)
+        {
+            if (mController.DeltaTouch.sqrMagnitude > 1e-3)
+            {
+                dx = -mController.DeltaTouch.x;
+                dy = -mController.DeltaTouch.y;
+            }
+            if (Mathf.Abs(mController.DeltaZoom) > 1e-3)
+                dz = mController.DeltaZoom;
         }
 
         Theta += dx * MovementSpeed * Time.fixedDeltaTime;
